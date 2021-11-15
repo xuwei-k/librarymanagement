@@ -7,7 +7,7 @@ import scala.annotation.tailrec
 import scala.language.experimental.macros
 
 object Configurations {
-  def config(name: String): Configuration = macro ConfigurationMacro.configMacroImpl
+  def config(name: String): Configuration = ???
   def default: Vector[Configuration] = defaultMavenConfigurations
   def defaultMavenConfigurations: Vector[Configuration] =
     Vector(Compile, Runtime, Test, Provided, Optional)
@@ -104,6 +104,7 @@ private[librarymanagement] abstract class ConfigurationExtra {
   def hide = Configuration.of(id, name, description, false, extendsConfigs, transitive)
 }
 
+/*
 private[sbt] object ConfigurationMacro {
   import scala.reflect.macros._
 
@@ -148,6 +149,7 @@ private[sbt] object ConfigurationMacro {
       .enclosingContextChain
       .map(_.tree.asInstanceOf[c.Tree])
 }
+ */
 
 private[librarymanagement] abstract class ConfigRefFunctions {
   implicit def configToConfigRef(c: Configuration): ConfigRef =

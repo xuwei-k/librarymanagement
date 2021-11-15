@@ -25,6 +25,19 @@ object HouseRulesPlugin extends AutoPlugin {
       })
       .value
       .toList,
+    libraryDependencies ~= {
+      _.map { x =>
+        if (Seq(
+              x.organization == "com.eed3si9n",
+              x.name.contains("sjson-new"),
+              x.crossVersion.isInstanceOf[CrossVersion.Binary],
+            ).forall(identity)) {
+          x cross CrossVersion.for3Use2_13
+        } else {
+          x
+        }
+      }
+    },
     scalacOptions ++= "-Yinline-warnings".ifScala211OrMinus.value.toList,
     scalacOptions ++= "-Yno-adapted-args".ifScala212OrMinus.value.toList,
     scalacOptions += "-Ywarn-dead-code",

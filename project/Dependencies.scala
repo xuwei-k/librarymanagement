@@ -12,11 +12,11 @@ object Dependencies {
   private val ioVersion = nightlyVersion.getOrElse("1.6.0-M1")
   private val utilVersion = nightlyVersion.getOrElse("1.6.0-M1")
 
-  private val sbtIO = "org.scala-sbt" %% "io" % ioVersion
+  private val sbtIO = "org.scala-sbt" %% "io" % ioVersion cross CrossVersion.for3Use2_13
 
-  private val utilPosition = "org.scala-sbt" %% "util-position" % utilVersion
-  private val utilLogging = "org.scala-sbt" %% "util-logging" % utilVersion
-  private val utilCache = "org.scala-sbt" %% "util-cache" % utilVersion
+  private val utilPosition = "org.scala-sbt" %% "util-position" % utilVersion cross CrossVersion.for3Use2_13
+  private val utilLogging = "org.scala-sbt" %% "util-logging" % utilVersion cross CrossVersion.for3Use2_13
+  private val utilCache = "org.scala-sbt" %% "util-cache" % utilVersion cross CrossVersion.for3Use2_13
 
   def getSbtModulePath(key: String, name: String) = {
     val localProps = new java.util.Properties()
@@ -49,18 +49,21 @@ object Dependencies {
   val scalaV = "2.12"
 
   val jsch = "com.jcraft" % "jsch" % "0.1.54" intransitive ()
-  val scalaReflect = Def.setting { "org.scala-lang" % "scala-reflect" % scalaVersion.value }
-  val scalaCompiler = Def.setting { "org.scala-lang" % "scala-compiler" % scalaVersion.value }
-  val scalaXml = "org.scala-lang.modules" %% "scala-xml" % "1.2.0"
-  val scalaTest = "org.scalatest" %% "scalatest" % "3.2.0"
+  val scalaReflect = Def.setting {
+    val v = if (scalaBinaryVersion.value == "3") scala213 else scalaVersion.value
+    "org.scala-lang" % "scala-reflect" % v
+  }
+  val scalaCompiler = Def.setting { "org.scala-lang" % "scala-compiler" % scala213 }
+  val scalaXml = "org.scala-lang.modules" %% "scala-xml" % "2.0.0"
+  val scalaTest = "org.scalatest" %% "scalatest" % "3.2.10"
   val scalaVerify = "com.eed3si9n.verify" %% "verify" % "1.0.0"
-  val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.14.0"
+  val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.15.4"
   val sjsonnew = Def.setting {
-    "com.eed3si9n" %% "sjson-new-core" % contrabandSjsonNewVersion.value
+    "com.eed3si9n" %% "sjson-new-core" % contrabandSjsonNewVersion.value cross CrossVersion.for3Use2_13
   }
   val sjsonnewScalaJson = Def.setting {
-    "com.eed3si9n" %% "sjson-new-scalajson" % contrabandSjsonNewVersion.value
+    "com.eed3si9n" %% "sjson-new-scalajson" % contrabandSjsonNewVersion.value cross CrossVersion.for3Use2_13
   }
-  val gigahorseOkhttp = "com.eed3si9n" %% "gigahorse-okhttp" % "0.5.0"
+  val gigahorseOkhttp = "com.eed3si9n" %% "gigahorse-okhttp" % "0.5.0" cross CrossVersion.for3Use2_13
   val okhttpUrlconnection = "com.squareup.okhttp3" % "okhttp-urlconnection" % "3.7.0"
 }

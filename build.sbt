@@ -40,18 +40,13 @@ ThisBuild / publishTo := {
 ThisBuild / Test / classLoaderLayeringStrategy := ClassLoaderLayeringStrategy.Flat
 
 def commonSettings: Seq[Setting[_]] = Def.settings(
-  scalaVersion := scala212,
+  scalaVersion := "3.1.0",
   // publishArtifact in packageDoc := false,
-  resolvers += Resolver.typesafeIvyRepo("releases"),
-  resolvers += Resolver.sonatypeRepo("snapshots"),
-  resolvers += Resolver.sbtPluginRepo("releases"),
-  resolvers += "bintray-sbt-maven-releases" at "https://dl.bintray.com/sbt/maven-releases/",
   testFrameworks += new TestFramework("verify.runner.Framework"),
   // concurrentRestrictions in Global += Util.testExclusiveRestriction,
   testOptions += Tests.Argument(TestFrameworks.ScalaCheck, "-w", "1"),
   compile / javacOptions ++= Seq("-Xlint", "-Xlint:-serial"),
   crossScalaVersions := Seq(scala212, scala213),
-  resolvers += Resolver.sonatypeRepo("public"),
   scalacOptions := {
     val old = scalacOptions.value
     scalaVersion.value match {
